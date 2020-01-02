@@ -32,11 +32,13 @@ fn main() {
         return;
     }
     let img = image::open(&args[1]).unwrap();
-    let mut output = String::from("");
+    let bytesize:u32 = 8;
     let mut counter: u32 = 0;
-    for y in 0..(img.height()/8) {
+    let height_limit = img.height() - bytesize;
+    let width_limit  = img.width() - 1;
+    for y in 0..(img.height()/bytesize) {
         for x in 0..img.width() {
-            let y_offset: u32 = y * 8;
+            let y_offset: u32 = y * bytesize;
             let mut byte: u8 = 0;
             for i in 0..=7 {
                 let realy = y_offset + i;
@@ -45,12 +47,14 @@ fn main() {
                     byte |= i32::pow(2,i) as u8;
                 }
             }
-            output = format!("{}{},",output, byte);
+            print!("{}", byte);
+            if !(y_offset == height_limit && x == width_limit) {
+               print!(","); 
+            }
             counter += 1;
             if counter % img.width() == 0 {
-                output = format!("{}\n",output);
+                println!("");
             }
         }
     }
-    print!("{}", output.trim_end().trim_end_matches(','));
 }
