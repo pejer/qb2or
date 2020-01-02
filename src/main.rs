@@ -19,9 +19,10 @@ use image::GenericImageView;
  * bits and turn individual pixels on or off. Each number represent 8 vertical
  * pixels.
  *
- * So 255 would mean all pixles in a vercial lign, should be "on". etc.
+ * So 255 would mean all pixles in a vertical line, 8 pixels tall, should be "on".
  *
- *
+ * Needless to say - this code could use some refactoring. Currently it shows my
+ * _total lack of understanding_ of rust as a language. But I'm working on it, ok...?
  */
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -31,34 +32,25 @@ fn main() {
         return;
     }
     let img = image::open(&args[1]).unwrap();
-
-    let pixel_pos_to_bit: [u8; 8] = [
-        0b0000_0001,
-        0b0000_0010,
-        0b0000_0100,
-        0b0000_1000,
-        0b0001_0000,
-        0b0010_0000,
-        0b0100_0000,
-        0b1000_0000
-    ];
+    let mut output = String::from("");
     let mut counter: u32 = 0;
     for y in 0..(img.height()/8) {
         for x in 0..img.width() {
             let y_offset: u32 = y * 8;
-            let mut byte: u8 = 0b0000_0000;
+            let mut byte: u8 = 0;
             for i in 0..=7 {
                 let realy = y_offset + i;
-                let pixel_value = img.get_pixel(x,realy)[0];
+                let pixel_value = image::Pixel::to_luma(&img.get_pixel(x, realy))[0];
                 if pixel_value > 127 {
-                    byte |= pixel_pos_to_bit[i as usize];
+                    byte |= i32::pow(2,i) as u8;
                 }
             }
-            print!("{},", byte);
+            output = format!("{}{},",output, byte);
             counter += 1;
             if counter % img.width() == 0 {
-                println!("");
+                output = format!("{}\n",output);
             }
         }
     }
+    print!("{}", output.trim_end().trim_end_matches(','));
 }
