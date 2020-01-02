@@ -8,12 +8,11 @@ use image::GenericImageView;
  * to render a bitmap image on an oled.
  *
  * We assume that you'll create an image that has the correct dimensions and that is 
- * monochrome. Currently we only read the value of the first channel, red, and any
- * pixel with a value higher then 127 is considered to be "on".
+ * monochrome. We read the 'luma' value of each pixel and if its above 127, we consider
+ * it to be 'on'.
  *
  * There are no checks of sane input so this little thing _could_ blow up in our 
  * face.
- *
  *
  * The oled_write_raw_P-method expects a string of numbers where it will use the
  * bits and turn individual pixels on or off. Each number represent 8 vertical
