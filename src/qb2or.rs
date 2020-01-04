@@ -112,9 +112,9 @@ pub mod qb2or {
         let limits = recalculate_limits(bytesize, width, height);
         QBBitmap {
             bitmap: bitmap_file,
-            bytesize: bytesize,
-            height: height,
-            width: width,
+            bytesize,
+            height,
+            width,
             height_limit: limits[1],
             width_limit: limits[0],
         }
