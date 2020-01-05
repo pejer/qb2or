@@ -8,6 +8,6 @@ fn main() {
         println!("Usage {:?} <path to image file>", args[0]);
         return;
     }
-    let qb2or_bitmap = qb2or::qb2or::new(&args[1]);
+    let qb2or_bitmap = qb2or::new(&args[1]);
     qb2or_bitmap.parse();
 }
