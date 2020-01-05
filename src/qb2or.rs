@@ -64,7 +64,8 @@ impl QBBitmap {
         self.width_limit = new_limits[0];
         self.height_limit = new_limits[1];
     }
-    // should print a lot of nice stuff...
+
+    // Parses & prints the strings of bytes QMK wants.
     pub fn parse(&self) {
         let mut counter: u32 = 0;
         for y in 0..(self.height / self.bytesize) {
