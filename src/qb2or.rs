@@ -67,7 +67,7 @@ impl QBBitmap {
 
     // Parses & prints the strings of bytes QMK wants.
     pub fn parse(&self) {
-        let mut counter: u32 = 0;
+        let mut counter: u16 = 0;
         for y in 0..(self.height / self.bytesize) {
             let y = y as u32;
             for x in 0..self.width {
@@ -86,8 +86,9 @@ impl QBBitmap {
                     print!(",");
                 }
                 counter += 1;
-                if counter % self.width as u32 == 0 {
+                if counter % self.width as u16 == 0 {
                     println!();
+                    counter = 0;
                 }
             }
         }
