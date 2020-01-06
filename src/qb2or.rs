@@ -66,7 +66,7 @@ impl QBBitmap {
     }
 
     // Parses & prints the strings of bytes QMK wants.
-    pub fn parse(&self)-> String {
+    pub fn parse(&self) -> String {
         let mut ret = String::from("");
         let mut counter: u16 = 0;
         for y in 0..(self.height / self.bytesize) {
@@ -123,7 +123,7 @@ pub fn new(bitmap_file: &str) -> QBBitmap {
 }
 
 #[cfg(test)]
-mod tests{
+mod tests {
     use super::*;
     use std::fs;
 
@@ -131,7 +131,8 @@ mod tests{
     fn pejer_logo_128_32() {
         let bitmap = new("./tests_assets/pejer_logo_128x64.png");
         let ret = bitmap.parse();
-        let ret_file = fs::read_to_string("./tests_assets/pejer_logo_128x64.txt").expect("Oops - something wrong with test file");
-        assert_eq!( ret_file, ret);
+        let ret_file = fs::read_to_string("./tests_assets/pejer_logo_128x64.txt")
+            .expect("Oops - something wrong with test file");
+        assert_eq!(ret_file, ret);
     }
 }

@@ -9,5 +9,5 @@ fn main() {
         return;
     }
     let qb2or_bitmap = qb2or::new(&args[1]);
-    print!("{}",qb2or_bitmap.parse());
+    print!("{}", qb2or_bitmap.parse());
 }
