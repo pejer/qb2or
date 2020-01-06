@@ -66,7 +66,8 @@ impl QBBitmap {
     }
 
     // Parses & prints the strings of bytes QMK wants.
-    pub fn parse(&self) {
+    pub fn parse(&self)-> String {
+        let mut ret = String::from("");
         let mut counter: u16 = 0;
         for y in 0..(self.height / self.bytesize) {
             let y = y as u32;
@@ -81,17 +82,18 @@ impl QBBitmap {
                         byte |= i32::pow(2, i) as u8;
                     }
                 }
-                print!("{}", byte);
+                ret.push_str(&byte.to_string());
                 if !(y_offset == self.height_limit && x == self.width_limit) {
-                    print!(",");
+                    ret.push_str(",");
                 }
                 counter += 1;
                 if counter == self.width as u16 {
-                    println!();
+                    ret.push_str("\n");
                     counter = 0;
                 }
             }
         }
+        ret
     }
 }
 impl fmt::Debug for QBBitmap {
@@ -117,5 +119,19 @@ pub fn new(bitmap_file: &str) -> QBBitmap {
         width,
         height_limit: limits[1],
         width_limit: limits[0],
+    }
+}
+
+#[cfg(test)]
+mod tests{
+    use super::*;
+    use std::fs;
+
+    #[test]
+    fn pejer_logo_128_32() {
+        let bitmap = new("./tests_assets/pejer_logo_128x64.png");
+        let ret = bitmap.parse();
+        let ret_file = fs::read_to_string("./tests_assets/pejer_logo_128x64.txt").expect("Oops - something wrong with test file");
+        assert_eq!( ret_file, ret);
     }
 }
