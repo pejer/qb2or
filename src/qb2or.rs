@@ -86,7 +86,7 @@ impl QBBitmap {
                     print!(",");
                 }
                 counter += 1;
-                if counter % self.width as u16 == 0 {
+                if counter == self.width as u16 {
                     println!();
                     counter = 0;
                 }
